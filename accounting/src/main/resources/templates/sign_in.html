@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Sign In - PixelAdmin</title>
+	<link type="text/css" rel="stylesheet" th:href="@{http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&amp;subset=latin}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/bootstrap.min.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/pixel-admin.min.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/pages.min.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/rtl.min.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/themes.min.css}" />
+	<script type="text/javascript" th:src="@{assets/demo/demo.js}"></script>
+	
+	<style>
+		#signin-demo {
+			position: fixed;
+			right: 0;
+			bottom: 0;
+			z-index: 10000;
+			background: rgba(0,0,0,.6);
+			padding: 6px;
+			border-radius: 3px;
+		}
+		#signin-demo img { cursor: pointer; height: 40px; }
+		#signin-demo img:hover { opacity: .5; }
+		#signin-demo div {
+			color: #fff;
+			font-size: 10px;
+			font-weight: 600;
+			padding-bottom: 6px;
+		}
+	</style>
+  </head>
+  
+<body class="theme-default page-signin">
+<div id="page-signin-bg">
+		<div class="overlay"></div>
+		<img th:src="@{/assets/demo/signin-bg-1.jpg}"/>
+</div>
+<div class="signin-container">
+		<div class="signin-info">
+			<a th:href="@{/}" class="logo">
+				<!-- <img th:src="@{/assets/demo/logo-big.png}"/> -->
+				Accounting 
+			</a>
+			<div class="slogan">
+				Simple. Flexible. Powerful.
+			</div> <!-- / .slogan -->
+			<ul>
+				<li><i class="fa fa-sitemap signin-icon"></i> Flexible modular structure</li>
+				<li><i class="fa fa-file-text-o signin-icon"></i> LESS &amp; SCSS source files</li>
+				<li><i class="fa fa-outdent signin-icon"></i> RTL direction support</li>
+				<li><i class="fa fa-heart signin-icon"></i> Crafted with love</li>
+			</ul> <!-- / Info list -->
+		</div>
+		<div class="signin-form">
+			<form method="POST" th:action="@{/login}" th:object="${user}" id="signin-form_id">
+				<div class="signin-text">
+					<span>Sign In to your account</span>
+				</div> 
+				<div class="form-group w-icon">
+					<input type="text" name="email" id="username_id" class="form-control input-lg" placeholder="Username or email"/>
+					<span class="fa fa-user signin-form-icon"></span>
+				</div> 
+				<div class="form-group w-icon">
+					<input type="password" name="userpassword" id="password_id" class="form-control input-lg" placeholder="Password"/>
+					<span class="fa fa-lock signin-form-icon"></span>
+				</div>
+				<div class="form-actions">
+					<button type="submit" class="signin-btn bg-primary">SIGN IN</button>
+					<a th:href="@{/}" class="forgot-password" id="forgot-password-link">Forgot your password?</a>
+				</div>
+			</form>
+		
+		
+		<div class="signin-with">
+				<a th:href="@{/index.html}" class="signin-with-btn" style="background:#4f6faa;background:rgba(79, 111, 170, .8);">Sign In with<span>Facebook</span></a>
+			</div>
+			<div class="password-reset-form" id="password-reset-form">
+				<div class="header">
+					<div class="signin-text">
+						<span>Password reset</span>
+						<div class="close">&times;</div>
+					</div> <!-- / .signin-text -->
+				</div> <!-- / .header -->
+				
+				<!-- Form -->
+				<form method="POST" th:object="${design}" id="password-reset-form_id">
+					<div class="form-group w-icon">
+						<input type="text" name="password_reset_email" id="p_email_id" class="form-control input-lg" placeholder="Enter your email"/>
+						<span class="fa fa-envelope signin-form-icon"></span>
+					</div> <!-- / Email -->
+
+					<div class="form-actions">
+						<button type="submit" class="signin-btn bg-primary">SEND PASSWORD RESET LINK</button>
+					</div> <!-- / .form-actions -->
+				</form>
+				<!-- / Form -->
+			</div>
+		</div>
+	</div>
+	<div class="not-a-member">
+		Not a member? <a th:href="@{/signup}">Sign up now</a>
+	</div>
+</body>
+</html>

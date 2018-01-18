@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title>Demo: Refer this example</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+	<link type="text/css" rel="stylesheet" th:href="@{http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&amp;subset=latin}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/bootstrap.min.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/pixel-admin.min.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/widgets.min.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/rtl.min.css}" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/stylesheets/themes.min.css}" />
+	<script type="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js}"></script>
+  </head>
+<body class="theme-default main-menu-animated">
+
+<script>var init = [];</script>
+<script type="text/javascript" th:src="@{assets/demo/demo.js}"></script>
+
+<div id="main-wrapper">
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: menu"></div>
+<div id="content-wrapper"> 
+<!-- **************************************Start Writing Code Below****************************************** -->
+<?php
+$tblname = "project";
+if (count($_POST) > 0) {
+    MysqlConnection::insert($tblname, $_POST);
+}
+$resultset = MysqlConnection::fetchAllAscending($tblname);
+print_r($resultset);
+?>
+<div class="row">
+    <div class="col-sm-12">
+        <script>
+            init.push(function () {
+                $('#jq-datatables-example').dataTable();
+                $('#jq-datatables-example_wrapper .table-caption').text('Project Master Information');
+                $('#jq-datatables-example_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+            });
+        </script>
+        <div class="panel">
+            <div class="panel-heading">
+                <span class="panel-title">View <?php echo $explode[1] ?></span>
+                <span class="panel-title">&nbsp;|&nbsp;</span>
+                <span class="panel-title">
+                    <button class="btn btn-success btn-xs btn-outline btn-flat btn-rounded" data-toggle="modal" data-target="#myModal">Add Project Master</button>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="table-primary">
+                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="jq-datatables-example">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Project Code</th>
+                                <th>Project Name</th>
+                                <th>Project Type</th>
+                                <th>Resi Area</th>
+                                <th>Comm Area</th>
+                                <th>Address</th>
+                                <th>Billable Sqft</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $index = 1;
+                            foreach ($resultset as $key => $value) {
+                                ?>
+                                <tr class="odd gradeX">
+                                    <td><?php echo $index ?></td>
+                                    <td><?php echo $value["proj_id"] ?></td>
+                                    <td><?php echo $value["proj_name"] ?></td>
+                                    <td><?php echo $value["proj_type"] ?></td>
+                                    <td><?php echo $value["ressidential_unit"] ?></td>
+                                    <td><?php echo $value["commercial_unit"] ?></td>
+                                    <td><?php echo $value["address"] ?></td>
+                                    <td><?php echo $value["total_billable_sqft"] ?></td>
+                                </tr>
+                                <?php
+                                $index++;
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ADD POP UP DIALOG -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Add project Master Information</h4>
+            </div>
+            <form name="frmEntry" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Project Name *</label>
+                                <input type="text" name="proj_name" maxlength="30" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div><!-- col-sm-6 -->
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Project Type</label>
+                                <select class="form-control"  name="proj_type"></select>
+                            </div>
+                        </div><!-- row -->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Address *</label>
+                                <input type="text" name="address" maxlength="200" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Country*</label>
+                                <input type="text" name="country" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div><!-- col-sm-6 -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Province</label>
+                                <input type="text" name="province" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div><!-- col-sm-6 -->
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Residential Unit*</label>
+                                <input type="text" name="ressidential_unit" maxlength="11" onkeypress="return chkNumericKey(event)" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div><!-- col-sm-6 -->
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Commertial Unit</label>
+                                <input type="text" name="commercial_unit" maxlength="11" onkeypress="return chkNumericKey(event)" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div><!-- col-sm-6 -->
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Start Date*</label>
+                                <input type="text" name="start_date" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">Total Billable Sqft</label>
+                                <input type="text" name="total_billable_sqft" maxlength="11" onkeypress="return chkNumericKey(event)" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group no-margin-hr">
+                                <label class="control-label">End Date*</label>
+                                <input type="text" name="end_date" autofocus="" placeholder="Enter Account Name" class="form-control"/>
+                            </div>
+                        </div><!-- col-sm-6 -->
+                    </div><!-- row -->
+                </div>  
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button> 
+                    <button type="button"  class="btn btn-info" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div> 
+    </div>  
+</div>  
+<!-- ADD POP UP DIALOG -->
+<!-- ***************************************END****************************************** -->
+</div>
+<div id="main-menu-bg"></div>
+</div>
+<script th:src="@{/assets/javascripts/bootstrap.min.js}"></script>
+<script th:src="@{/assets/javascripts/pixel-admin.min.js}"></script>
+<script type="text/javascript">
+	init.push(function () {
+		// Javascript code here
+	})
+	window.PixelAdmin.start(init);
+</script>
+</body>
+</html>
